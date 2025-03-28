@@ -1,0 +1,6 @@
+board:
+  name: nuclei_fpga_eval
+  full_name: Nuclei FPGA Evaluation Board
+  vendor: nuclei
+  socs:
+    - name: nuclei_evalsoc

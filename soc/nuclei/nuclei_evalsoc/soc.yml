@@ -1,0 +1,6 @@
+family:
+  - name: nuclei_evalsoc
+    series:
+      - name: nuclei_evalsoc
+        socs:
+          - name: nuclei_evalsoc

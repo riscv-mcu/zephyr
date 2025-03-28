@@ -1,0 +1,12 @@
+# Copyright (c) 2024 Antmicro <www.antmicro.com>
+# SPDX-License-Identifier: Apache-2.0
+
+config SOC_SERIES
+	default "nuclei_evalsoc" if SOC_SERIES_NUCLEI_EVALSOC
+
+config SOC
+	default "nuclei_evalsoc" if SOC_SERIES_NUCLEI_EVALSOC
+
+config SOC_NUCLEI_EVALSOC
+	bool
+	select SOC_SERIES_NUCLEI_EVALSOC

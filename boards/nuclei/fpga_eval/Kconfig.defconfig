@@ -1,0 +1,8 @@
+# Nuclei FPGA Evaluation Development Board Configuration
+
+# Copyright (c) 2024 Huaqi Fang <hqfang@nucleisys.com>
+
+if BOARD_NUCLEI_FPGA_EVAL
+
+
+endif # BOARD_NUCLEI_FPGA_EVAL

@@ -1,0 +1,26 @@
+# Copyright (c) 2017 Jean-Paul Etienne <fractalclone@gmail.com>
+# Copyright (c) 2024 Antmicro <www.antmicro.com>
+# SPDX-License-Identifier: Apache-2.0
+
+if SOC_SERIES_NUCLEI_EVALSOC
+
+config SYS_CLOCK_HW_CYCLES_PER_SEC
+	default 32768
+
+config RISCV_MCAUSE_EXCEPTION_MASK
+	default 0xFFF
+
+config RISCV_SOC_INTERRUPT_INIT
+	default y
+
+config NUM_IRQS
+	default 64 if  NUCLEI_ECLIC
+	default 16 if !NUCLEI_ECLIC
+
+config ARCH_IRQ_VECTOR_TABLE_ALIGN
+	default 512 if NUCLEI_ECLIC
+
+config RISCV_TRAP_HANDLER_ALIGNMENT
+	default 64 if NUCLEI_ECLIC && !RISCV_VECTORED_MODE
+
+endif # SOC_SERIES_NUCLEI_EVALSOC

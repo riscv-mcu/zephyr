@@ -1,0 +1,12 @@
+identifier: nuclei_fpga_eval
+name: Nuclei FPGA Evaluation Board
+type: mcu
+arch: riscv
+toolchain:
+  - zephyr
+  - xtools
+flash: 4096
+ram: 64
+supported:
+  - uart
+vendor: nuclei

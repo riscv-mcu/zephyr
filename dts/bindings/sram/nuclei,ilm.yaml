@@ -1,0 +1,11 @@
+# SPDX-License-Identifier: Apache-2.0
+
+description: Nuclei Instruction Local Memory
+
+compatible: "nuclei,ilm"
+
+include: base.yaml
+
+properties:
+  reg:
+    required: true

@@ -1,0 +1,60 @@
+# Nuclei UART configuration option
+
+# Copyright (c) 2017 Jean-Paul Etienne <fractalclone@gmail.com>
+# Modified based Kconfig.sifive
+# SPDX-License-Identifier: Apache-2.0
+
+menuconfig UART_NUCLEI
+	bool "Nuclei serial driver"
+	default y
+	depends on DT_HAS_NUCLEI_UART0_ENABLED
+	select SERIAL_HAS_DRIVER
+	select SERIAL_SUPPORT_INTERRUPT
+	help
+	  This option enables the Nuclei Freedom serial driver.
+
+# ---------- Port 0 ----------
+
+menuconfig UART_NUCLEI_PORT_0
+	bool "NUCLEI Port 0"
+	depends on UART_NUCLEI
+	help
+	  This tells the driver to configure the UART port at boot, depending on
+	  the additional configure options below.
+
+config UART_NUCLEI_PORT_0_RXCNT_IRQ
+	int "Port 0 RX Interrupt Threshold Count"
+	default 0
+	depends on UART_NUCLEI_PORT_0
+	help
+	  Port 0 RX Threshold at which the RX FIFO interrupt triggers.
+
+config UART_NUCLEI_PORT_0_TXCNT_IRQ
+	int "Port 0 TX Interrupt Threshold Count"
+	default 1
+	depends on UART_NUCLEI_PORT_0
+	help
+	  Port 0 TX Threshold at which the TX FIFO interrupt triggers.
+
+# ---------- Port 1 ----------
+
+menuconfig UART_NUCLEI_PORT_1
+	bool "NUCLEI Port 1"
+	depends on UART_NUCLEI
+	help
+	  This tells the driver to configure the UART port at boot, depending on
+	  the additional configure options below.
+
+config UART_NUCLEI_PORT_1_RXCNT_IRQ
+	int "Port 0 RX Interrupt Threshold Count"
+	default 0
+	depends on UART_NUCLEI_PORT_1
+	help
+	  Port 1 RX Threshold at which the RX FIFO interrupt triggers.
+
+config UART_NUCLEI_PORT_1_TXCNT_IRQ
+	int "Port 1 TX Interrupt Threshold Count"
+	default 1
+	depends on UART_NUCLEI_PORT_1
+	help
+	  Port 1 TX Threshold at which the TX FIFO interrupt triggers.

@@ -1,0 +1,11 @@
+# SPDX-License-Identifier: Apache-2.0
+
+description: Nuclei Data Local Memory
+
+compatible: "nuclei,dlm"
+
+include: base.yaml
+
+properties:
+  reg:
+    required: true
