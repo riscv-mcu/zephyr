@@ -59,9 +59,9 @@
 		ranges;
 
 		systimer: timer@18030000 {
-			compatible = "nuclei,systimer";
-			reg = <0x18030000 0x10000>;
-			interrupts = <3 0>, <7 0>;
+			compatible = "nuclei,systimer", "riscv,machine-timer";
+			reg = <0x18030000 0x8 0x18030008 0x8>;
+			interrupts-extended = <&eclic 7 0>;
 		};
 
 		eclic: interrupt-controller@18020000 {
