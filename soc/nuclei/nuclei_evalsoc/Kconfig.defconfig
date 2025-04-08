@@ -13,6 +13,14 @@ config RISCV_MCAUSE_EXCEPTION_MASK
 config RISCV_SOC_INTERRUPT_INIT
 	default y
 
+config RISCV_VECTORED_MODE
+	default y if NUCLEI_ECLIC
+	default n if !NUCLEI_ECLIC
+
+config GEN_IRQ_VECTOR_TABLE
+	default y if NUCLEI_ECLIC
+	default n if !NUCLEI_ECLIC
+
 config NUM_IRQS
 	default 64 if  NUCLEI_ECLIC
 	default 16 if !NUCLEI_ECLIC
