@@ -36,10 +36,20 @@ extern uintptr_t _irq_vector_table[];
 #endif
 
 #elif defined(CONFIG_RISCV_HAS_CLIC)
-#define ISR1_OFFSET	3
-#define ISR3_OFFSET	17
-#define ISR5_OFFSET	18
-#define TRIG_CHECK_SIZE	19
+#ifndef CONFIG_SOC_NUCLEI_EVALSOC
+#define ISR1_OFFSET    3
+#define ISR3_OFFSET    17
+#define ISR5_OFFSET    18
+#define TRIG_CHECK_SIZE        19
+#else
+#define ISR1_OFFSET	20
+#define ISR2_OFFSET	19
+#define ISR3_OFFSET	3
+#define ISR4_OFFSET	21
+#define ISR5_OFFSET	22
+#define ISR6_OFFSET	23
+#define TRIG_CHECK_SIZE	24
+#endif
 #else
 
 /* RISC-V has very few IRQ lines which can be triggered from software */
