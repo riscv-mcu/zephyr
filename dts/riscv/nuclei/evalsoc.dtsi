@@ -35,20 +35,30 @@
 		cpu: cpu@0 {
 			clock-frequency = <DT_FREQ_M(50)>;
 			compatible = "nuclei,riscv", "riscv";
-			riscv,isa = "rv64imafdc";
+			riscv,isa = "rv32imafdc";
 			reg = <0>;
 
 		};
 	};
 
-	sram0: memory@90000000 {
+	ilm: memory@80000000 {
+		compatible = "mmio-sram";
+		reg = <0x80000000 DT_SIZE_K(256)>;
+	};
+
+	dlm: memory@90000000 {
 		compatible = "mmio-sram";
 		reg = <0x90000000 DT_SIZE_K(256)>;
 	};
 
-	flash0: memory@80000000 {
+	sram0: memory@A0000000 {
 		compatible = "mmio-sram";
-		reg = <0x80000000 DT_SIZE_K(256)>;
+		reg = <0xA0000000 DT_SIZE_K(256)>;
+	};
+
+	flash0: memory@20000000 {
+		compatible = "mmio-sram";
+		reg = <0x20000000 DT_SIZE_M(8)>;
 	};
 
 	soc {
