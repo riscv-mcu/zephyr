@@ -1,4 +1,3 @@
-# Copyright (c) 2021 Tokita, Hiroshi <tokita.hiroshi@gmail.com>
 # Copyright (c) 2024 Huaqi Fang <hqfang@nucleisys.com>
 # SPDX-License-Identifier: Apache-2.0
 
