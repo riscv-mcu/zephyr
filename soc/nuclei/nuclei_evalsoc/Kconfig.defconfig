@@ -4,6 +4,8 @@
 
 if SOC_SERIES_NUCLEI_EVALSOC
 
+# TODO: you need to change the default value
+# according to your SoC systimer frequency
 config SYS_CLOCK_HW_CYCLES_PER_SEC
 	default 32768
 
@@ -25,8 +27,12 @@ config NUM_IRQS
 	default 64 if  NUCLEI_ECLIC
 	default 16 if !NUCLEI_ECLIC
 
+# TODO: you need to change the align value
+# according to your SoC interrupt number
+# see mtvt description in Nuclei ISA Spec
 config ARCH_IRQ_VECTOR_TABLE_ALIGN
-	default 512 if NUCLEI_ECLIC
+	default 512 if NUCLEI_ECLIC && !64BIT
+	default 1024 if NUCLEI_ECLIC && 64BIT
 
 config RISCV_TRAP_HANDLER_ALIGNMENT
 	default 64 if NUCLEI_ECLIC && !RISCV_VECTORED_MODE
