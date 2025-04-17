@@ -204,11 +204,17 @@ If you want to do it just using openocd and gdb, you can debug zephyr applicatio
       (gdb) c
 
 
-## FAQ
+FAQ
+===
 
-### UART0 interrupt id may change due to different bitstream
+UART0 interrupt id may change due to different bitstream
+---------------------------------------------------------
 
-On some bitstream, the UART0 interrupt id is should be set to `19` instead of `51`,
-please modify the `uart0->interrupts` in the dts file to `19` if you encounter this issue.
+If you run ``samples/subsys/shell/shell_module/``, and there is no output in console,
+please check whether the correct **UART0** interrupt id is ``51`` or ``19``.
 
-Example change: `interrupts = <51 0>;` -> `interrupts = <19 0>;`
+On some bitstream, the **UART0** interrupt id may be set to ``19`` instead of ``51``,
+please modify the ``uart0->interrupts`` in the dts file ``dts/riscv/nuclei/evalsoc.dtsi``
+to ``19`` if you encounter this issue.
+
+Example change: ``interrupts = <51 0>;`` -> ``interrupts = <19 0>;``
