@@ -9,6 +9,8 @@ DDR200T/MCU200T/KU060/VCU118/VU19P etc.
 You can flash nuclei evaluation soc bitstream into these boards with Nuclei
 RISC-V CPU such as 200/300/600/900/1000 series.
 
+Currently not yet support Zephyr SMP, still working on it.
+
 Default baudrate for zephyr on Nuclei FPGA Evaluation Board is **115200**.
 
 Programming and debugging
@@ -29,6 +31,8 @@ Applications for the ``nuclei_fpga_eval`` board configuration can be built as
 usual (see :ref:`build_an_application`) using the corresponding board name:
 
 .. note::
+
+   - Nuclei Qemu 2025.02 is not able to run Zephyr, please check the FAQ section.
 
    - By default, the nuclei evaluation soc is expecting a rv32imafdc bitstream,
    if you want to use rv64imafdc bitstream, you need to modify the KConfig configuration
@@ -218,3 +222,34 @@ please modify the ``uart0->interrupts`` in the dts file ``dts/riscv/nuclei/evals
 to ``19`` if you encounter this issue.
 
 Example change: ``interrupts = <51 0>;`` -> ``interrupts = <19 0>;``
+
+Nuclei Qemu 2025.02 not able to run Zephyr
+-------------------------------------------
+
+If you are using Nuclei Qemu 2025.02, it is not able to run zephyr on Nuclei CPU in Qemu.
+
+You need to download Nuclei Qemu development version from https://drive.weixin.qq.com/s?k=ABcAKgdSAFcNoqkNsB
+
+And the source code related to Nuclei Qemu is pushed to  https://github.com/riscv-mcu/qemu/tree/nuclei/9.0
+
+Here are sample usage:
+
+.. code-block:: console
+
+   # cd to the zephyr project root directory
+   cd /path/to/zephyr
+   # Make sure you are using Nuclei Qemu
+   # Make sure you are using the development version of Nuclei Qemu
+   # QEMU emulator version 9.0.4 (v9.0.4-93-g34445bffa0-dirty)
+   where qemu-system-riscv64
+   # cd to application which you want to run, eg. samples/hello_world
+   cd samples/hello_world
+   west build -b nuclei_fpga_eval --pristine
+   # If you want to run on n300fd
+   qemu-system-riscv32 -M nuclei_evalsoc,download=ilm -cpu nuclei-n300fd,ext= -smp 1 -icount shift=0 -nodefaults -nographic -serial stdio -kernel .\build\zephyr\zephyr.elf
+   # If you want to run on nx900fd
+   # CAUTION: you need to modify source code as described in Building section
+   # Change cpu configuration from rv32 to rv64
+   rm -rf build
+   west build -b nuclei_fpga_eval
+   qemu-system-riscv64 -M nuclei_evalsoc,download=ilm -cpu nuclei-nx900fd,ext= -smp 2 -icount shift=0 -nodefaults -nographic -serial stdio -kernel .\build\zephyr\zephyr.elf
