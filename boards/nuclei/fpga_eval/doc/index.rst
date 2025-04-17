@@ -41,6 +41,9 @@ usual (see :ref:`build_an_application`) using the corresponding board name:
    - You also need to update interrupt alignment **ARCH_IRQ_VECTOR_TABLE_ALIGN** in
    ``soc/nuclei/nuclei_evalsoc/Kconfig.defconfig``
 
+   - The default ``riscv,isa`` in ``dts/riscv/nuclei/evalsoc.dtsi`` is ``rv32imafdc``, you need to
+   modify it to ``rv64imafdc`` if you want to use ``rv64imafdc`` bitstream such as nx900/ux900 cpu
+
 .. zephyr-app-commands::
    :zephyr-app: samples/hello_world
    :board: nuclei_fpga_eval
