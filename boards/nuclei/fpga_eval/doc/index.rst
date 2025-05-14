@@ -34,8 +34,8 @@ usual (see :ref:`build_an_application`) using the corresponding board name:
 
    - Nuclei Qemu 2025.02 is not able to run Zephyr, please check the FAQ section.
 
-   - By default, the nuclei evaluation soc is expecting a rv32imafdc bitstream,
-   if you want to use rv64imafdc bitstream, you need to modify the KConfig configuration
+   - By default, the nuclei evaluation soc is expecting a ``rv32imafdc`` bitstream,
+   if you want to use ``rv64imafdc`` bitstream, you need to modify the KConfig configuration
    of ``nuclei_evalsoc``, just add ``select 64BIT`` in ``soc/nuclei/nuclei_evalsoc/Kconfig``
 
    - The default **CPU/Peripheral frequency** configured in ``dts/riscv/nuclei/evalsoc.dtsi``
@@ -252,4 +252,4 @@ Here are sample usage:
    # Change cpu configuration from rv32 to rv64
    rm -rf build
    west build -b nuclei_fpga_eval
-   qemu-system-riscv64 -M nuclei_evalsoc,download=ilm -cpu nuclei-nx900fd,ext= -smp 2 -icount shift=0 -nodefaults -nographic -serial stdio -kernel .\build\zephyr\zephyr.elf
+   qemu-system-riscv64 -M nuclei_evalsoc,download=ilm -cpu nuclei-nx900fd,ext= -smp 1 -icount shift=0 -nodefaults -nographic -serial stdio -kernel .\build\zephyr\zephyr.elf
