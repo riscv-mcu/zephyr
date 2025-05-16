@@ -253,3 +253,13 @@ Here are sample usage:
    rm -rf build
    west build -b nuclei_fpga_eval
    qemu-system-riscv64 -M nuclei_evalsoc,download=ilm -cpu nuclei-nx900fd,ext= -smp 1 -icount shift=0 -nodefaults -nographic -serial stdio -kernel .\build\zephyr\zephyr.elf
+
+Source Code Review
+------------------
+
+Our porting implementation is based on Zephyr v4.1 branch. You can review the changes
+and implementation details by comparing the branches:
+
+* **Base**: ``v4.1-branch``
+* **Port**: ``nuclei/4.1-branch``
+* **Comparison**: https://github.com/riscv-mcu/zephyr/compare/v4.1-branch...nuclei/4.1-branch
