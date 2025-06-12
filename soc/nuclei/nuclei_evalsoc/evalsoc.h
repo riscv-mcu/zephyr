@@ -205,25 +205,32 @@ typedef enum IRQn {
 #endif
 } IRQn_Type;
 
+#if defined(CFG_IRQ_NUM) && (CFG_IRQ_NUM > 38)
+#define IRQn_OFFSET             0
+#else
+#define IRQn_OFFSET             32
+#endif
+
 #ifdef CFG_HAS_CLIC
 /* UART0 Interrupt */
 /* NOTE: Take care the external uart irq may not work, it require a correct evalsoc cpu configuration */
 /* NOTE: For latest 200/300 cpu, this UART0_IRQn maybe SOC_INT19_IRQn */
-#define UART0_IRQn                                 SOC_INT51_IRQn
+/* Please check Interrupts of Eval_SoC section in Nuclei_Processor_Integration_Guide.pdf */
+#define UART0_IRQn                                 (SOC_INT51_IRQn - IRQn_OFFSET)
 /* QSPI Interrupt */
-#define QSPI0_IRQn                                 SOC_INT53_IRQn
-#define QSPI1_IRQn                                 SOC_INT54_IRQn
-#define QSPI2_IRQn                                 SOC_INT55_IRQn
+#define QSPI0_IRQn                                 (SOC_INT53_IRQn - IRQn_OFFSET)
+#define QSPI1_IRQn                                 (SOC_INT54_IRQn - IRQn_OFFSET)
+#define QSPI2_IRQn                                 (SOC_INT55_IRQn - IRQn_OFFSET)
 #else
 /* UART0 Interrupt */
-#define UART0_IRQn                                 PLIC_INT33_IRQn
+#define UART0_IRQn                                 (PLIC_INT33_IRQn - IRQn_OFFSET)
 /* QSPI Interrupt */
-#define QSPI0_IRQn                                 PLIC_INT35_IRQn
-#define QSPI1_IRQn                                 PLIC_INT36_IRQn
-#define QSPI2_IRQn                                 PLIC_INT37_IRQn
+#define QSPI0_IRQn                                 (PLIC_INT35_IRQn - IRQn_OFFSET)
+#define QSPI1_IRQn                                 (PLIC_INT36_IRQn - IRQn_OFFSET)
+#define QSPI2_IRQn                                 (PLIC_INT37_IRQn - IRQn_OFFSET)
 #endif
 
-#define PLIC_UART0_IRQn                            PLIC_INT33_IRQn
+#define PLIC_UART0_IRQn                            (PLIC_INT33_IRQn - IRQn_OFFSET)
 
 
 /* =========================================================================================================================== */
@@ -305,9 +312,9 @@ typedef enum EXCn {
 // CPU IREGION Base Address
 // To set IREGION base, just define macro CFG_IREGION_BASE_ADDR in cpufeature.h
 #ifndef CFG_IREGION_BASE_ADDR
-// it is defined in system_evalsoc.c, you should not use this variable CpuIRegionBase
-// SystemIRegionInfo variable in previous release is removed, you should avoid to use it
-// you should use macro __IREGION_BASEADDR defined in evalsoc.h
+// Modified comment for Zephyr environment
+// If not in the Zephyr environment, this variable is defined in system_evalsoc.c; when in Zephyr, it's defined here.
+// Note: Use of this variable is discouraged. Instead, use the __IREGION_BASEADDR macro defined in evalsoc.h.
 extern volatile unsigned long CpuIRegionBase;
 #define CPU_IREGION_BASE            CpuIRegionBase
 #else
@@ -456,6 +463,12 @@ extern volatile unsigned long CpuIRegionBase;
 #ifdef CFG_HAS_HPM
 #define __HPM_PRESENT               1
 #define __HPM_VER                   CFG_HPM_VER
+#endif
+
+// SMODE Configuration
+// To enable S-Mode, just define macro CFG_HAS_SMODE in cpufeature.h
+#ifdef CFG_HAS_SMODE
+#define __SMODE_PRESENT             1
 #endif
 
 // NICE Configuration

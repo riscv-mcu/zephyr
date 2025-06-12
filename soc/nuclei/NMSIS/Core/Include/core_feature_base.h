@@ -881,7 +881,7 @@ __STATIC_FORCEINLINE void __disable_sw_irq(void)
  */
 __STATIC_FORCEINLINE void __disable_core_irq(uint32_t irq)
 {
-    __RV_CSR_CLEAR(CSR_MIE, 1 << irq);
+    __RV_CSR_CLEAR(CSR_MIE, 1UL << irq);
 }
 
 /**
@@ -892,7 +892,7 @@ __STATIC_FORCEINLINE void __disable_core_irq(uint32_t irq)
  */
 __STATIC_FORCEINLINE void __enable_core_irq(uint32_t irq)
 {
-    __RV_CSR_SET(CSR_MIE, 1 << irq);
+    __RV_CSR_SET(CSR_MIE, 1UL << irq);
 }
 
 /**
@@ -914,7 +914,7 @@ __STATIC_FORCEINLINE uint32_t __get_core_irq_pending(uint32_t irq)
  */
 __STATIC_FORCEINLINE void __clear_core_irq_pending(uint32_t irq)
 {
-    __RV_CSR_SET(CSR_MIP, 1 << irq);
+    __RV_CSR_CLEAR(CSR_MIP, 1UL << irq);
 }
 
 /**
@@ -991,7 +991,7 @@ __STATIC_FORCEINLINE void __disable_timer_irq_s(void)
  */
 __STATIC_FORCEINLINE void __enable_sw_irq_s(void)
 {
-    __RV_CSR_SET(CSR_MIE, MIE_SSIE);
+    __RV_CSR_SET(CSR_SIE, MIE_SSIE);
 }
 
 /**
@@ -1013,7 +1013,7 @@ __STATIC_FORCEINLINE void __disable_sw_irq_s(void)
  */
 __STATIC_FORCEINLINE void __disable_core_irq_s(uint32_t irq)
 {
-    __RV_CSR_CLEAR(CSR_SIE, 1 << irq);
+    __RV_CSR_CLEAR(CSR_SIE, 1UL << irq);
 }
 
 /**
@@ -1024,7 +1024,7 @@ __STATIC_FORCEINLINE void __disable_core_irq_s(uint32_t irq)
  */
 __STATIC_FORCEINLINE void __enable_core_irq_s(uint32_t irq)
 {
-    __RV_CSR_SET(CSR_SIE, 1 << irq);
+    __RV_CSR_SET(CSR_SIE, 1UL << irq);
 }
 
 /**
@@ -1046,7 +1046,7 @@ __STATIC_FORCEINLINE uint32_t __get_core_irq_pending_s(uint32_t irq)
  */
 __STATIC_FORCEINLINE void __clear_core_irq_pending_s(uint32_t irq)
 {
-    __RV_CSR_SET(CSR_SIP, 1 << irq);
+    __RV_CSR_CLEAR(CSR_SIP, 1UL << irq);
 }
 
 /**
@@ -1163,6 +1163,45 @@ __STATIC_FORCEINLINE uint64_t __get_rv_time(void)
 #else // TODO Need cover for XLEN=128 case in future
     return (uint64_t)__RV_CSR_READ(CSR_TIME);
 #endif
+}
+
+/**
+ * \brief   Read the CYCLE register
+ * \details This function will read the CYCLE register without taking the
+ *          CYCLEH register into account
+ * \return  32 bits value when XLEN=32
+ *          64 bits value when XLEN=64
+ *          TODO: XLEN=128 need to be supported
+ */
+__STATIC_FORCEINLINE unsigned long __read_cycle_csr()
+{
+    return __RV_CSR_READ(CSR_CYCLE);
+}
+
+/**
+ * \brief   Read the INSTRET register
+ * \details This function will read the INSTRET register without taking the
+ *          INSTRETH register into account
+ * \return  32 bits value when XLEN=32
+ *          64 bits value when XLEN=64
+ *          TODO: XLEN=128 need to be supported
+ */
+__STATIC_FORCEINLINE unsigned long __read_instret_csr()
+{
+    return __RV_CSR_READ(CSR_INSTRET);
+}
+
+/**
+ * \brief   Read the TIME register
+ * \details This function will read the TIME register without taking the
+ *          TIMEH register into account
+ * \return  32 bits value when XLEN=32
+ *          64 bits value when XLEN=64
+ *          TODO: XLEN=128 need to be supported
+ */
+__STATIC_FORCEINLINE unsigned long __read_time_csr()
+{
+    return __RV_CSR_READ(CSR_TIME);
 }
 
 /**
@@ -1424,7 +1463,7 @@ __STATIC_FORCEINLINE void __disable_minstret_counter(void)
  */
 __STATIC_FORCEINLINE void __enable_mhpm_counter(unsigned long idx)
 {
-    __RV_CSR_CLEAR(CSR_MCOUNTINHIBIT, (1 << idx));
+    __RV_CSR_CLEAR(CSR_MCOUNTINHIBIT, (1UL << idx));
 }
 
 /**
@@ -1435,7 +1474,7 @@ __STATIC_FORCEINLINE void __enable_mhpm_counter(unsigned long idx)
  */
 __STATIC_FORCEINLINE void __disable_mhpm_counter(unsigned long idx)
 {
-    __RV_CSR_SET(CSR_MCOUNTINHIBIT, (1 << idx));
+    __RV_CSR_SET(CSR_MCOUNTINHIBIT, (1UL << idx));
 }
 
 /**
@@ -1708,14 +1747,13 @@ __STATIC_FORCEINLINE void __set_hpm_counter(unsigned long idx, uint64_t value)
 }
 
 /**
- * \brief   Get value of selected high performance monitor couner
+ * \brief   Get value of selected high performance monitor counter
  * \param [in]    idx     HPMCOUNTERx CSR index(3-31)
- * \param [in]    event   HPMCOUNTERx Register value to set
  * \details
  * Get high performance monitor counter register value
  * \return               HPMCOUNTERx Register value
  */
-__STATIC_FORCEINLINE unsigned long __get_hpm_counter(unsigned long idx)
+__STATIC_FORCEINLINE uint64_t __get_hpm_counter(unsigned long idx)
 {
 #if __RISCV_XLEN == 32
     volatile uint32_t high0, low, high;
@@ -1912,6 +1950,52 @@ __STATIC_FORCEINLINE unsigned long __get_hpm_counter(unsigned long idx)
 }
 
 /**
+ * \brief   Get value of selected high performance monitor counter
+ * \param [in]    idx     HPMCOUNTERx CSR index(3-31)
+ * \details
+ * Get high performance monitor counter register value without high
+ *          32 bits when XLEN=32
+ * \return               HPMCOUNTERx Register value
+ */
+__STATIC_FORCEINLINE unsigned long __read_hpm_counter(unsigned long idx)
+{
+    switch (idx) {
+        case 0: return __read_cycle_csr();
+        case 2: return __read_instret_csr();
+        case 3: return __RV_CSR_READ(CSR_MHPMCOUNTER3);
+        case 4: return __RV_CSR_READ(CSR_MHPMCOUNTER4);
+        case 5: return __RV_CSR_READ(CSR_MHPMCOUNTER5);
+        case 6: return __RV_CSR_READ(CSR_MHPMCOUNTER6);
+        case 7: return __RV_CSR_READ(CSR_MHPMCOUNTER7);
+        case 8: return __RV_CSR_READ(CSR_MHPMCOUNTER8);
+        case 9: return __RV_CSR_READ(CSR_MHPMCOUNTER9);
+        case 10: return __RV_CSR_READ(CSR_MHPMCOUNTER10);
+        case 11: return __RV_CSR_READ(CSR_MHPMCOUNTER11);
+        case 12: return __RV_CSR_READ(CSR_MHPMCOUNTER12);
+        case 13: return __RV_CSR_READ(CSR_MHPMCOUNTER13);
+        case 14: return __RV_CSR_READ(CSR_MHPMCOUNTER14);
+        case 15: return __RV_CSR_READ(CSR_MHPMCOUNTER15);
+        case 16: return __RV_CSR_READ(CSR_MHPMCOUNTER16);
+        case 17: return __RV_CSR_READ(CSR_MHPMCOUNTER17);
+        case 18: return __RV_CSR_READ(CSR_MHPMCOUNTER18);
+        case 19: return __RV_CSR_READ(CSR_MHPMCOUNTER19);
+        case 20: return __RV_CSR_READ(CSR_MHPMCOUNTER20);
+        case 21: return __RV_CSR_READ(CSR_MHPMCOUNTER21);
+        case 22: return __RV_CSR_READ(CSR_MHPMCOUNTER22);
+        case 23: return __RV_CSR_READ(CSR_MHPMCOUNTER23);
+        case 24: return __RV_CSR_READ(CSR_MHPMCOUNTER24);
+        case 25: return __RV_CSR_READ(CSR_MHPMCOUNTER25);
+        case 26: return __RV_CSR_READ(CSR_MHPMCOUNTER26);
+        case 27: return __RV_CSR_READ(CSR_MHPMCOUNTER27);
+        case 28: return __RV_CSR_READ(CSR_MHPMCOUNTER28);
+        case 29: return __RV_CSR_READ(CSR_MHPMCOUNTER29);
+        case 30: return __RV_CSR_READ(CSR_MHPMCOUNTER30);
+        case 31: return __RV_CSR_READ(CSR_MHPMCOUNTER31);
+        default: return 0;
+    }
+}
+
+/**
  * \brief   Set exceptions delegation to S mode
  * \details Set certain exceptions of supervisor mode or user mode
  *          delegated from machined mode to supervisor mode.
@@ -1921,6 +2005,18 @@ __STATIC_FORCEINLINE unsigned long __get_hpm_counter(unsigned long idx)
 __STATIC_FORCEINLINE void __set_medeleg(unsigned long mask)
 {
     __RV_CSR_WRITE(CSR_MEDELEG, mask);
+}
+
+/**
+ * \brief   Set interrupt delegation to S mode
+ * \details Set certain interrupt of supervisor mode or user mode
+ *          delegated from machined mode to supervisor mode.
+ * \remarks
+ *          interrupt should trigger in supervisor mode or user mode.
+ */
+__STATIC_FORCEINLINE void __set_mideleg(unsigned long mask)
+{
+    __RV_CSR_WRITE(CSR_MIDELEG, mask);
 }
 
 /**
