@@ -9,8 +9,11 @@ config SOC_SERIES_NUCLEI_EVALSOC
 	select RISCV
 	select RISCV_PRIVILEGED
 	select RISCV_HAS_CLIC
+	select ATOMIC_OPERATIONS_BUILTIN
 	select RISCV_SOC_HAS_GP_RELATIVE_ADDRESSING
 
+	# TODO If you want to use RV64, uncomment the following line
+	#select 64BIT
 	select CPU_HAS_FPU
 	select CPU_HAS_FPU_DOUBLE_PRECISION
 	select FPU
@@ -22,7 +25,8 @@ config SOC_SERIES_NUCLEI_EVALSOC
 	select RISCV_ISA_EXT_ZICSR
 	select RISCV_ISA_EXT_ZIFENCEI
 
-	select ATOMIC_OPERATIONS_C
 	select INCLUDE_RESET_VECTOR
 	select SOC_EARLY_INIT_HOOK
+	select SOC_PER_CORE_INIT_HOOK
+	select SOC_PREP_HOOK
 	imply XIP

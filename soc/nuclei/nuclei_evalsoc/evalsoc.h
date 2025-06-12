@@ -524,7 +524,8 @@ extern volatile unsigned long CpuIRegionBase;
 #endif
 
 #include <nmsis_core.h>                         /*!< Nuclei N/NX class processor and core peripherals */
-#include "system_evalsoc.h"                     /*!< evalsoc System */
+// NOTE: Here we are not using any initialization code defined in system_evalsoc.c in Zephyr, so we don't include it
+// #include "system_evalsoc.h"                     /*!< evalsoc System */
 
 /* ========================================  Start of section using anonymous unions  ======================================== */
 

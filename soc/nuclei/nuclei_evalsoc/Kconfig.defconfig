@@ -12,8 +12,20 @@ config SYS_CLOCK_HW_CYCLES_PER_SEC
 config RISCV_MCAUSE_EXCEPTION_MASK
 	default 0xFFF
 
+config KERNEL_ENTRY
+	default "__nuclei_start"
+
 config RISCV_SOC_INTERRUPT_INIT
 	default y
+
+config SMP
+	default n
+
+# TODO: you need to change the value
+# according to your SoC
+config MP_MAX_NUM_CPUS
+	default 2 if SMP
+	default 1 if !SMP
 
 config RISCV_VECTORED_MODE
 	default y if NUCLEI_ECLIC
@@ -23,6 +35,8 @@ config GEN_IRQ_VECTOR_TABLE
 	default y if NUCLEI_ECLIC
 	default n if !NUCLEI_ECLIC
 
+# TODO: adapt it according to
+# the number of interrupts of your SoC
 config NUM_IRQS
 	default 64 if  NUCLEI_ECLIC
 	default 16 if !NUCLEI_ECLIC

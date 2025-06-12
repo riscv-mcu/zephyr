@@ -32,12 +32,101 @@
 		#address-cells = <1>;
 		#size-cells = <0>;
 
-		cpu: cpu@0 {
+		cpu0: cpu@0 {
 			clock-frequency = <DT_FREQ_M(50)>;
 			compatible = "nuclei,riscv", "riscv";
-			riscv,isa = "rv32imafdc";
+			riscv,isa = "rv64imafdc";
 			reg = <0>;
+			cpu0_intc: interrupt-controller {
+				compatible = "riscv,cpu-intc";
+				#interrupt-cells = <1>;
+				interrupt-controller;
+			};
 
+		};
+
+		cpu1: cpu@1 {
+			clock-frequency = <DT_FREQ_M(50)>;
+			compatible = "nuclei,riscv", "riscv";
+			riscv,isa = "rv64imafdc";
+			reg = <1>;
+			cpu1_intc: interrupt-controller {
+				compatible = "riscv,cpu-intc";
+				#interrupt-cells = <1>;
+				interrupt-controller;
+			};
+		};
+
+		cpu2: cpu@2 {
+			clock-frequency = <DT_FREQ_M(50)>;
+			compatible = "nuclei,riscv", "riscv";
+			riscv,isa = "rv64imafdc";
+			reg = <2>;
+			cpu2_intc: interrupt-controller {
+				compatible = "riscv,cpu-intc";
+				#interrupt-cells = <1>;
+				interrupt-controller;
+			};
+		};
+
+		cpu3: cpu@3 {
+			clock-frequency = <DT_FREQ_M(50)>;
+			compatible = "nuclei,riscv", "riscv";
+			riscv,isa = "rv64imafdc";
+			reg = <3>;
+			cpu3_intc: interrupt-controller {
+				compatible = "riscv,cpu-intc";
+				#interrupt-cells = <1>;
+				interrupt-controller;
+			};
+		};
+
+		cpu4: cpu@4 {
+			clock-frequency = <DT_FREQ_M(50)>;
+			compatible = "nuclei,riscv", "riscv";
+			riscv,isa = "rv64imafdc";
+			reg = <4>;
+			cpu4_intc: interrupt-controller {
+				compatible = "riscv,cpu-intc";
+				#interrupt-cells = <1>;
+				interrupt-controller;
+			};
+		};
+
+		cpu5: cpu@5 {
+			clock-frequency = <DT_FREQ_M(50)>;
+			compatible = "nuclei,riscv", "riscv";
+			riscv,isa = "rv64imafdc";
+			reg = <5>;
+			cpu5_intc: interrupt-controller {
+				compatible = "riscv,cpu-intc";
+				#interrupt-cells = <1>;
+				interrupt-controller;
+			};
+		};
+
+		cpu6: cpu@6 {
+			clock-frequency = <DT_FREQ_M(50)>;
+			compatible = "nuclei,riscv", "riscv";
+			riscv,isa = "rv64imafdc";
+			reg = <6>;
+			cpu6_intc: interrupt-controller {
+				compatible = "riscv,cpu-intc";
+				#interrupt-cells = <1>;
+				interrupt-controller;
+			};
+		};
+
+		cpu7: cpu@7 {
+			clock-frequency = <DT_FREQ_M(50)>;
+			compatible = "nuclei,riscv", "riscv";
+			riscv,isa = "rv64imafdc";
+			reg = <7>;
+			cpu7_intc: interrupt-controller {
+				compatible = "riscv,cpu-intc";
+				#interrupt-cells = <1>;
+				interrupt-controller;
+			};
 		};
 	};
 
@@ -53,7 +142,22 @@
 
 	sram0: memory@A0000000 {
 		compatible = "mmio-sram";
-		reg = <0xA0000000 DT_SIZE_K(256)>;
+		reg = <0xA0000000 DT_SIZE_K(128)>;
+	};
+
+	sram1: memory@A0200000 {
+		compatible = "mmio-sram";
+		reg = <0xA0200000 DT_SIZE_K(128)>;
+	};
+
+	ddr0: memory@B0000000 {
+		compatible = "mmio-sram";
+		reg = <0xB0000000 DT_SIZE_M(256)>;
+	};
+
+	ddr1: memory@C0000000 {
+		compatible = "mmio-sram";
+		reg = <0xC0000000 DT_SIZE_M(256)>;
 	};
 
 	flash0: memory@20000000 {
@@ -72,6 +176,19 @@
 			compatible = "nuclei,systimer", "riscv,machine-timer";
 			reg = <0x18030000 0x8 0x18030008 0x8>;
 			interrupts-extended = <&eclic 7 0>;
+		};
+
+		clint: clint@18031000 {
+			compatible = "sifive,clint0";
+			interrupts-extended = <&cpu0_intc 3 &cpu0_intc 7
+					       &cpu1_intc 3 &cpu1_intc 7
+					       &cpu2_intc 3 &cpu2_intc 7
+					       &cpu3_intc 3 &cpu3_intc 7
+					       &cpu4_intc 3 &cpu4_intc 7
+					       &cpu5_intc 3 &cpu5_intc 7
+					       &cpu6_intc 3 &cpu6_intc 7
+					       &cpu7_intc 3 &cpu7_intc 7>;
+			reg = <0x18031000 0x10000>;
 		};
 
 		eclic: interrupt-controller@18020000 {
