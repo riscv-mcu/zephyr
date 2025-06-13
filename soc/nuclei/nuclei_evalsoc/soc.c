@@ -26,10 +26,19 @@ void soc_early_init_hook(void)
 void soc_per_core_init_hook(void)
 {
 #if defined(__CCM_PRESENT) && (__CCM_PRESENT == 1)
-    // NOTE: CFG_HAS_SMODE and CFG_HAS_UMODE are defined in auto generated cpufeature.h if present in cpu
+	// NOTE: CFG_HAS_SMODE and CFG_HAS_UMODE are defined in auto generated cpufeature.h if present in cpu
 #if defined(CFG_HAS_SMODE) || defined(CFG_HAS_UMODE)
-    EnableSUCCM();
+	EnableSUCCM();
 #endif
+#endif
+
+#if defined(CFG_HAS_UMODE)
+	// Enable Supervisor/User mode access time/cycle/instret counters
+	__RV_CSR_SET(CSR_MCOUNTEREN, MCOUNTEREN_TIME | MCOUNTEREN_CY | MCOUNTEREN_IR);
+#endif
+#if defined(CFG_HAS_SMODE)
+	// Enable User mode access time/cycle/instret counters
+	__RV_CSR_SET(CSR_SCOUNTEREN, MCOUNTEREN_TIME | MCOUNTEREN_CY | MCOUNTEREN_IR);
 #endif
 
 }
