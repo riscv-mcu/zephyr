@@ -15,9 +15,14 @@ RISC-V CPU such as 200/300/600/900/1000 series.
 
 Currently we support Zephyr SMP and Non-SMP version, and Nuclei Qemu not yet able to run Zephyr on it, still working on it.
 
-Default baudrate for zephyr on Nuclei FPGA Evaluation Board is **115200**.
+Default baudrate for Zephyr on Nuclei FPGA Evaluation Board is **115200**.
 
 Now program is default built for sram memory region since we need to consider both SMP(2 Core by default) and Non-SMP configurations.
+
+You can evaluate Zephyr on Nuclei FPGA Evaluation Board using Nuclei Prebuilt CPU bitsteam such as u900 or ux900 bitstream.
+
+- ECLIC is required for Zephyr to run on Nuclei FPGA Evaluation Board, so you need to use bitstream with ECLIC support.
+- For SMP support, you need to use bitstream with smp 2 core support.
 
 Programming and debugging
 *************************
