@@ -15,6 +15,10 @@
    <a href="https://github.com/zephyrproject-rtos/zephyr/actions/workflows/twister.yaml?query=branch%3Amain"><img src="https://github.com/zephyrproject-rtos/zephyr/actions/workflows/twister.yaml/badge.svg?event=push"></a>
 
 
+**Click below link to get started with Zephyr on Nuclei RISC-V CPU.**
+
+- https://github.com/riscv-mcu/zephyr/blob/nuclei/4.1-branch/boards/nuclei/fpga_eval/doc/index.rst
+
 The Zephyr Project is a scalable real-time operating system (RTOS) supporting
 multiple hardware architectures, optimized for resource constrained devices,
 and built with security in mind.
