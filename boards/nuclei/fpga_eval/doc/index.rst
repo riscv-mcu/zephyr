@@ -393,6 +393,214 @@ Zephyr **v4.1.0** is compatible with Zephyr SDK **0.17.0**, Partially compatible
    d----           2024/12/4    11:01                tools
    d----           2025/9/18    14:41                zephyr
    (.venv) PS C:\Work\Code\zephyrproject> cd zephyr
+   (.venv) PS C:\Work\Code\zephyrproject\zephyr> python --version
+   Python 3.11.4
+   (.venv) PS C:\Work\Code\zephyrproject\zephyr> pip list
+   Package             Version
+   ------------------- ------------
+   anytree             2.12.1
+   appdirs             1.4.4
+   arrow               1.2.3
+   astroid             3.3.5
+   canopen             2.3.0
+   capstone            4.0.2
+   cbor                1.0.0
+   cbor2               5.6.5
+   certifi             2024.8.30
+   cffi                1.17.1
+   charset-normalizer  3.4.0
+   clang-format        19.1.4
+   click               8.1.3
+   cmsis-pack-manager  0.5.3
+   colorama            0.4.6
+   colorlog            6.9.0
+   coverage            7.6.8
+   cryptography        44.0.0
+   Deprecated          1.2.15
+   dill                0.3.9
+   docopt              0.6.2
+   gcovr               8.2
+   gitdb               4.0.11
+   gitlint             0.19.1
+   gitlint-core        0.19.1
+   GitPython           3.1.43
+   graphviz            0.20.3
+   grpcio              1.68.1
+   grpcio-tools        1.68.1
+   hidapi              0.14.0.post4
+   idna                3.10
+   imgtool             2.1.0
+   importlib_metadata  8.5.0
+   importlib_resources 6.4.5
+   iniconfig           2.0.0
+   intelhex            2.3.0
+   intervaltree        3.1.0
+   isort               5.13.2
+   Jinja2              3.1.4
+   junit2html          31.0.2
+   junitparser         3.2.0
+   lark                1.2.2
+   libusb-package      1.0.26.2
+   lpc-checksum        3.0.0
+   lxml                5.3.0
+   MarkupSafe          3.0.2
+   mccabe              0.7.0
+   mock                5.1.0
+   mypy                1.13.0
+   mypy-extensions     1.0.0
+   natsort             8.4.0
+   numpy               2.2.6
+   packaging           24.2
+   pandas              2.2.3
+   pathspec            0.12.1
+   patool              3.1.0
+   pillow              11.0.0
+   pip                 24.3.1
+   platformdirs        4.3.6
+   pluggy              1.5.0
+   ply                 3.11
+   polib               1.2.0
+   prettytable         3.12.0
+   progress            1.6
+   protobuf            5.29.0
+   psutil              6.1.0
+   pycparser           2.22
+   pyelftools          0.31
+   PyGithub            2.5.0
+   Pygments            2.18.0
+   PyJWT               2.10.1
+   pykwalify           1.8.0
+   pylink-square       1.3.0
+   pylint              3.3.2
+   PyNaCl              1.5.0
+   pyocd               0.36.0
+   pyserial            3.5
+   pytest              8.3.4
+   python-can          4.5.0
+   python-dateutil     2.9.0.post0
+   python-magic        0.4.27
+   python-magic-bin    0.4.14
+   pytz                2025.2
+   pyusb               1.2.1
+   PyYAML              6.0.2
+   regex               2024.11.6
+   requests            2.32.3
+   ruamel.yaml         0.18.6
+   ruamel.yaml.clib    0.2.12
+   ruff                0.8.1
+   semver              3.0.2
+   setuptools          65.5.0
+   six                 1.16.0
+   smmap               5.0.1
+   sortedcontainers    2.4.0
+   sphinx-lint         1.0.0
+   tabulate            0.9.0
+   tomlkit             0.13.2
+   tqdm                4.67.1
+   typing_extensions   4.12.2
+   tzdata              2025.2
+   unidiff             0.7.5
+   urllib3             2.2.3
+   wcwidth             0.2.13
+   west                1.3.0
+   windows-curses      2.4.0
+   wrapt               1.17.0
+   yamllint            1.35.1
+   zcbor               0.9.1
+   zipp                3.21.0
+   (.venv) PS C:\Work\Code\zephyrproject> west --version
+   West version: v1.3.0
+   (.venv) PS C:\Work\Code\zephyrproject\zephyr> west sdk list
+   0.17.0:
+   path: C:\Users\hqfang\zephyr-sdk-0.17.0
+   installed-toolchains:
+      - aarch64-zephyr-elf
+      - arc-zephyr-elf
+      - arc64-zephyr-elf
+      - arm-zephyr-eabi
+      - microblazeel-zephyr-elf
+      - mips-zephyr-elf
+      - nios2-zephyr-elf
+      - riscv64-zephyr-elf
+      - sparc-zephyr-elf
+      - x86_64-zephyr-elf
+      - xtensa-amd_acp_6_0_adsp_zephyr-elf
+      - xtensa-dc233c_zephyr-elf
+      - xtensa-espressif_esp32s2_zephyr-elf
+      - xtensa-espressif_esp32s3_zephyr-elf
+      - xtensa-espressif_esp32_zephyr-elf
+      - xtensa-intel_ace15_mtpm_zephyr-elf
+      - xtensa-intel_ace30_ptl_zephyr-elf
+      - xtensa-intel_tgl_adsp_zephyr-elf
+      - xtensa-mtk_mt8195_adsp_zephyr-elf
+      - xtensa-nxp_imx8m_adsp_zephyr-elf
+      - xtensa-nxp_imx8ulp_adsp_zephyr-elf
+      - xtensa-nxp_imx_adsp_zephyr-elf
+      - xtensa-nxp_rt500_adsp_zephyr-elf
+      - xtensa-nxp_rt600_adsp_zephyr-elf
+      - xtensa-nxp_rt700_hifi1_zephyr-elf
+      - xtensa-nxp_rt700_hifi4_zephyr-elf
+      - xtensa-sample_controller32_zephyr-elf
+      - xtensa-sample_controller_zephyr-elf
+   available-toolchains:
+   (.venv) PS C:\Work\Code\zephyrproject\zephyr> west list
+   manifest     zephyr                       HEAD                                     N/A
+   acpica       modules/lib/acpica           8d24867bc9c9d81c81eeac59391cda59333affd4 https://github.com/zephyrproject-rtos/acpica
+   cmsis        modules/hal/cmsis            d1b8b20b6278615b00e136374540eb1c00dcabe7 https://github.com/zephyrproject-rtos/cmsis
+   cmsis-dsp    modules/lib/cmsis-dsp        d80a49b2bb186317dc1db4ac88da49c0ab77e6e7 https://github.com/zephyrproject-rtos/cmsis-dsp
+   cmsis-nn     modules/lib/cmsis-nn         e9328d612ea3ea7d0d210d3ac16ea8667c01abdd https://github.com/zephyrproject-rtos/cmsis-nn
+   cmsis_6      modules/lib/cmsis_6          783317a3072554acbac86cca2ff24928cbf98d30 https://github.com/zephyrproject-rtos/CMSIS_6
+   edtt         tools/edtt                   b9ca3c7030518f07b7937dacf970d37a47865a76 https://github.com/zephyrproject-rtos/edtt
+   fatfs        modules/fs/fatfs             16245c7c41d2b79e74984f49b5202551786b8a9b https://github.com/zephyrproject-rtos/fatfs
+   hal_adi      modules/hal/adi              633fcecf3717aaa22079cf6121627a879f24df51 https://github.com/zephyrproject-rtos/hal_adi
+   hal_altera   modules/hal/altera           4fe4df959d4593ce66e676aeba0b57f546dba0fe https://github.com/zephyrproject-rtos/hal_altera
+   hal_ambiq    modules/hal/ambiq            87a188b91aca22ce3ce7deb4a1cbf7780d784673 https://github.com/zephyrproject-rtos/hal_ambiq
+   hal_atmel    modules/hal/atmel            da767444cce3c1d9ccd6b8a35fd7c67dc82d489c https://github.com/zephyrproject-rtos/hal_atmel
+   hal_espressif modules/hal/espressif        202c59552dc98e5cd02386313e1977ecb17a131f https://github.com/zephyrproject-rtos/hal_espressif
+   hal_ethos_u  modules/hal/ethos_u          50ddffca1cc700112f25ad9bc077915a0355ee5d https://github.com/zephyrproject-rtos/hal_ethos_u
+   hal_gigadevice modules/hal/gigadevice       2994b7dde8b0b0fa9b9c0ccb13474b6a486cddc3 https://github.com/zephyrproject-rtos/hal_gigadevice
+   hal_infineon modules/hal/infineon         468e955eb49b8a731474ff194ca17b6e6a08c2d9 https://github.com/zephyrproject-rtos/hal_infineon
+   hal_intel    modules/hal/intel            0355bb816263c54eed23c7781034447af5d8200c https://github.com/zephyrproject-rtos/hal_intel
+   hal_microchip modules/hal/microchip        fa2431a906ffb560160d40739d7cf04169551103 https://github.com/zephyrproject-rtos/hal_microchip
+   hal_nordic   modules/hal/nordic           37ca068d7b013fb65a2acc9306bffa48a3e72839 https://github.com/zephyrproject-rtos/hal_nordic
+   hal_nuvoton  modules/hal/nuvoton          466c3eed9c98453fb23953bf0e0427fea01924be https://github.com/zephyrproject-rtos/hal_nuvoton
+   hal_nxp      modules/hal/nxp              9dc7449014a7380355612453b31be479cb3a6833 https://github.com/zephyrproject-rtos/hal_nxp
+   hal_openisa  modules/hal/openisa          eabd530a64d71de91d907bad257cd61aacf607bc https://github.com/zephyrproject-rtos/hal_openisa
+   hal_quicklogic modules/hal/quicklogic       bad894440fe72c814864798c8e3a76d13edffb6c https://github.com/zephyrproject-rtos/hal_quicklogic
+   hal_renesas  modules/hal/renesas          3204903bdc5eda6869a40363560a69369c8d0e22 https://github.com/zephyrproject-rtos/hal_renesas
+   hal_rpi_pico modules/hal/rpi_pico         7b57b24588797e6e7bf18b6bda168e6b96374264 https://github.com/zephyrproject-rtos/hal_rpi_pico
+   hal_silabs   modules/hal/silabs           8a173e9e566a396a19d18da4661cb54ce098f268 https://github.com/zephyrproject-rtos/hal_silabs
+   hal_st       modules/hal/st               05fd4533730a9aea845261c5d24ed9832a6f0b6e https://github.com/zephyrproject-rtos/hal_st
+   hal_stm32    modules/hal/stm32            55043bcc35fffa3b4a8c75a696d932b5020aad09 https://github.com/zephyrproject-rtos/hal_stm32
+   hal_tdk      modules/hal/tdk              6727477af1e46fa43878102489b9672a9d24e39f https://github.com/zephyrproject-rtos/hal_tdk
+   hal_telink   modules/hal/telink           4226c7fc17d5a34e557d026d428fc766191a0800 https://github.com/zephyrproject-rtos/hal_telink
+   hal_ti       modules/hal/ti               258652a3ac5d7df68ba8df20e4705c3bd98ede38 https://github.com/zephyrproject-rtos/hal_ti
+   hal_wch      modules/hal/wch              1de9d3e406726702ce7cfc504509a02ecc463554 https://github.com/zephyrproject-rtos/hal_wch
+   hal_wurthelektronik modules/hal/wurthelektronik  e3e2797b224fc48fdef1bc3e5a12a7c73108bba2 https://github.com/zephyrproject-rtos/hal_wurthelektronik
+   hal_xtensa   modules/hal/xtensa           baa56aa3e119b5aae43d16f9b2d2c8112e052871 https://github.com/zephyrproject-rtos/hal_xtensa
+   hostap       modules/lib/hostap           697fd2cf5cbbd0c5375fc34761b6a9d7489a67d2 https://github.com/zephyrproject-rtos/hostap
+   liblc3       modules/lib/liblc3           48bbd3eacd36e99a57317a0a4867002e0b09e183 https://github.com/zephyrproject-rtos/liblc3
+   libmctp      modules/lib/libmctp          b97860e78998551af99931ece149eeffc538bdb1 https://github.com/zephyrproject-rtos/libmctp
+   libmetal     modules/hal/libmetal         3e8781aae9d7285203118c05bc01d4eb0ca565a7 https://github.com/zephyrproject-rtos/libmetal
+   littlefs     modules/fs/littlefs          ed0531d59ee37f5fb2762bcf2fc8ba4efaf82656 https://github.com/zephyrproject-rtos/littlefs
+   loramac-node modules/lib/loramac-node     fb00b383072518c918e2258b0916c996f2d4eebe https://github.com/zephyrproject-rtos/loramac-node
+   lvgl         modules/lib/gui/lvgl         1ed1ddd881c3784049a92bb9fe37c38c6c74d998 https://github.com/zephyrproject-rtos/lvgl
+   mbedtls      modules/crypto/mbedtls       4952e1328529ee549d412b498ea71c54f30aa3b1 https://github.com/zephyrproject-rtos/mbedtls
+   mcuboot      bootloader/mcuboot           346f7374ff4467e40b5594658f8ac67a5e9813c9 https://github.com/zephyrproject-rtos/mcuboot
+   mipi-sys-t   modules/debug/mipi-sys-t     33e5c23cbedda5ba12dbe50c4baefb362a791001 https://github.com/zephyrproject-rtos/mipi-sys-t
+   net-tools    tools/net-tools              93acc8bac4661e74e695eb1aea94c7c5262db2e2 https://github.com/zephyrproject-rtos/net-tools
+   nrf_hw_models modules/bsim_hw_models/nrf_hw_models 73a5d5827a94820be65b7d276d28173ec10bab9f https://github.com/zephyrproject-rtos/nrf_hw_models
+   nrf_wifi     modules/lib/nrf_wifi         e35f707a782b7c4c0eb83a3b06ca4e6eb693f29f https://github.com/zephyrproject-rtos/nrf_wifi
+   open-amp     modules/lib/open-amp         52bb1783521c62c019451cee9b05b8eda9d7425f https://github.com/zephyrproject-rtos/open-amp
+   openthread   modules/lib/openthread       3ae741f95e7dfb391dec35c48742862049eb62e8 https://github.com/zephyrproject-rtos/openthread
+   percepio     modules/debug/percepio       49e6dc202aa38c2a3edbafcc2dab85dec6aee973 https://github.com/zephyrproject-rtos/percepio
+   picolibc     modules/lib/picolibc         82d62ed1ac55b4e34a12d0390aced2dc9af13fc9 https://github.com/zephyrproject-rtos/picolibc
+   segger       modules/debug/segger         cf56b1d9c80f81a26e2ac5727c9cf177116a4692 https://github.com/zephyrproject-rtos/segger
+   tinycrypt    modules/crypto/tinycrypt     1012a3ebee18c15ede5efc8332ee2fc37817670f https://github.com/zephyrproject-rtos/tinycrypt
+   trusted-firmware-a modules/tee/tf-a/trusted-firmware-a 713ffbf96c5bcbdeab757423f10f73eb304eff07 https://github.com/zephyrproject-rtos/trusted-firmware-a
+   trusted-firmware-m modules/tee/tf-m/trusted-firmware-m 918f32d9fce5e0ee59fc33844b5317b7626ce37a https://github.com/zephyrproject-rtos/trusted-firmware-m
+   uoscore-uedhoc modules/lib/uoscore-uedhoc   54abc109c9c0adfd53c70077744c14e454f04f4a https://github.com/zephyrproject-rtos/uoscore-uedhoc
+   zcbor        modules/lib/zcbor            9b07780aca6fb21f82a241ba386ad9b379809337 https://github.com/zephyrproject-rtos/zcbor
    (.venv) PS C:\Work\Code\zephyrproject\zephyr> west build -b nuclei_fpga_eval samples/hello_world
    -- west build: generating a build system
    Loading Zephyr default modules (Zephyr base).
