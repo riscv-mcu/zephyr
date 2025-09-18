@@ -5,7 +5,7 @@ Overview
 
 .. note::
 
-   Nuclei RISC-V CPU must support IREGION feature to run Zephyr.
+   - Nuclei RISC-V CPU must support IREGION feature to run Zephyr.
 
 The Nuclei FPGA Evaluation Board is common name for FPGA development boards such as
 DDR200T/MCU200T/KU060/VCU118/VU19P etc.
@@ -115,7 +115,7 @@ usual (see :ref:`build_an_application`) using the corresponding board name:
 
 Make sure you have followed the get started guide of Zephyr to setup development environment:
 
-- Get started guide: https://docs.zephyrproject.org/latest/develop/getting_started/index.html
+- Get started guide(please use zephyr sdk 0.17.0): https://docs.zephyrproject.org/4.1.0/develop/getting_started/index.html
 - Download Nuclei OpenOCD: https://nucleisys.com/download.php
 - Checkout Nuclei Maintained Zephyr Repository with branch ``nuclei/4.1-branch``: https://github.com/riscv-mcu/zephyr
 
@@ -123,6 +123,9 @@ And then you can build the hello world sample application for the ``nuclei_fpga_
 
 .. code-block:: console
 
+   # setup zephyr development environment as described above
+   # zephyr sdk == 0.17.0 is required
+   # assume you have set it up correctly
    # cd to the zephyr project root directory
    cd /path/to/zephyr
    # check the current branch and status
@@ -343,3 +346,74 @@ and implementation details by comparing the branches:
 * **Base**: ``v4.1-branch``
 * **Port**: ``nuclei/4.1-branch``
 * **Comparison**: https://github.com/riscv-mcu/zephyr/compare/v4.1-branch...nuclei/4.1-branch
+
+
+FAQ
+===
+
+1. Compile sample met following error ``zephyr/lib/libc/picolibc/locks.c:11:16: error: conflicting types for '__lock___libc_recursive_mutex'; have 'struct k_mutex'``
+
+See https://github.com/zephyrproject-rtos/zephyr/issues/92505 and https://docs.google.com/spreadsheets/d/1wzGJLRuR6urTgnDFUqKk7pEB8O6vWu6Sxziw_KROxMA/edit?gid=0#gid=0
+
+Zephyr **v4.1.0** is compatible with Zephyr SDK **0.17.0**, Partially compatible with later versions, please download Zephyr SDK 0.17.0
+
+2. Show me a sample build command and command log
+
+.. code-block:: console
+
+   (.venv) PS C:\Work\Code\zephyrproject> dir
+
+      Directory: C:\Work\Code\zephyrproject
+
+   Mode                 LastWriteTime         Length Name
+   ----                 -------------         ------ ----
+   d----           2024/12/4    10:36                .venv
+   d----          2024/12/12    16:33                .vscode
+   d----           2024/12/4    10:45                .west
+   d----           2024/12/4    11:01                bootloader
+   d----           2024/12/4    11:03                modules
+   d----           2024/12/4    11:01                tools
+   d----           2025/9/18    14:41                zephyr
+   (.venv) PS C:\Work\Code\zephyrproject> cd zephyr
+   (.venv) PS C:\Work\Code\zephyrproject\zephyr> west build -b nuclei_fpga_eval samples/hello_world
+   -- west build: generating a build system
+   Loading Zephyr default modules (Zephyr base).
+   -- Application: C:/Work/Code/zephyrproject/zephyr/samples/hello_world
+   -- CMake version: 3.31.6
+   -- Found Python3: C:/Work/Code/zephyrproject/.venv/Scripts/python.exe (found suitable version "3.11.4", minimum required is "3.10") found components: Interpreter
+   -- Cache files will be written to: C:/Work/Code/zephyrproject/zephyr/.cache
+   -- Zephyr version: 4.1.0 (C:/Work/Code/zephyrproject/zephyr)
+   -- Found west (found suitable version "1.3.0", minimum required is "0.14.0")
+   -- Board: nuclei_fpga_eval, qualifiers: nuclei_evalsoc
+   -- ZEPHYR_TOOLCHAIN_VARIANT not set, trying to locate Zephyr SDK
+   -- Found host-tools: zephyr 0.17.0 (C:/Users/hqfang/zephyr-sdk-0.17.0)
+   -- Found toolchain: zephyr 0.17.0 (C:/Users/hqfang/zephyr-sdk-0.17.0)
+   -- Could NOT find Dtc (missing: DTC) (Required is at least version "1.4.6")
+   Hint: The project() command has not yet been called.  It sets up system-specific search paths.
+   -- Found BOARD.dts: C:/Work/Code/zephyrproject/zephyr/boards/nuclei/fpga_eval/nuclei_fpga_eval.dts
+   -- Generated zephyr.dts: C:/Work/Code/zephyrproject/zephyr/build/zephyr/zephyr.dts
+   -- Generated pickled edt: C:/Work/Code/zephyrproject/zephyr/build/zephyr/edt.pickle
+   -- Generated devicetree_generated.h: C:/Work/Code/zephyrproject/zephyr/build/zephyr/include/generated/zephyr/devicetree_generated.h
+   -- Including generated dts.cmake file: C:/Work/Code/zephyrproject/zephyr/build/zephyr/dts.cmake
+   Parsing C:/Work/Code/zephyrproject/zephyr/Kconfig
+   Loaded configuration 'C:/Work/Code/zephyrproject/zephyr/boards/nuclei/fpga_eval/nuclei_fpga_eval_defconfig'
+   Merged configuration 'C:/Work/Code/zephyrproject/zephyr/samples/hello_world/prj.conf'
+   Configuration saved to 'C:/Work/Code/zephyrproject/zephyr/build/zephyr/.config'
+   Kconfig header saved to 'C:/Work/Code/zephyrproject/zephyr/build/zephyr/include/generated/zephyr/autoconf.h'
+   -- Found GnuLd: c:/users/hqfang/zephyr-sdk-0.17.0/riscv64-zephyr-elf/riscv64-zephyr-elf/bin/ld.bfd.exe (found version "2.38")
+   -- The C compiler identification is GNU 12.2.0
+   -- The CXX compiler identification is GNU 12.2.0
+   -- The ASM compiler identification is GNU
+   -- Found assembler: C:/Users/hqfang/zephyr-sdk-0.17.0/riscv64-zephyr-elf/bin/riscv64-zephyr-elf-gcc.exe
+   -- Configuring done (24.5s)
+   -- Generating done (1.0s)
+   -- Build files have been written to: C:/Work/Code/zephyrproject/zephyr/build
+   -- west build: building application
+   [1/109] Generating include/generated/zephyr/version.h
+   -- Zephyr version: 4.1.0 (C:/Work/Code/zephyrproject/zephyr), build: v4.1.0-38-g2d67cb01ad31
+   [109/109] Linking C executable zephyr\zephyr.elf
+   Memory region         Used Size  Region Size  %age Used
+               ROM:       20672 B       128 KB     15.77%
+               RAM:        4204 B       128 KB      3.21%
+         IDT_LIST:          0 GB         2 KB      0.00%
+   Generating files from C:/Work/Code/zephyrproject/zephyr/build/zephyr/zephyr.elf for board: nuclei_fpga_eval
