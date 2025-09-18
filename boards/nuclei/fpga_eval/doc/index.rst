@@ -34,6 +34,13 @@ Programming and debugging
      ``dts/riscv/nuclei/evalsoc.dtsi`` to other value
    - If you want to use ``rv64imafdc``, you need to modify ``soc/nuclei/nuclei_evalsoc/Kconfig``, uncomment the line ``select 64BIT``,
      and change ``rv32imafdc`` to ``rv64imafdc`` in ``dts/riscv/nuclei/evalsoc.dtsi``.
+   - Current program is downloaded to sram memory region, if you want to program to other region,
+     you need to change ``zephyr,sram`` and ``zephyr,flash`` in ``boards/nuclei/fpga_eval/nuclei_fpga_eval.dts``
+     to different memory region declared in ``dts/riscv/nuclei/evalsoc.dtsi``.
+
+     - default ``zephyr,sram``  -> ``sram1`` : base **0xA0200000**, size **128K**
+     - default ``zephyr,flash`` -> ``sram0`` : base **0xA0000000**, size **128K**
+     - If you want to change program to run on real flash region, please change ``zephyr,flash`` to ``flash0``
 
 
 You need to download Nuclei OpenOCD from https://nucleisys.com/download.php,
@@ -126,6 +133,8 @@ so you need to switch to our maintained zephyr repo and branch after environment
 
 And then you can build the hello world sample application for the ``nuclei_fpga_eval`` board:
 
+You can find a pdf version of Zephyr 4.1 documentation here: https://docs.zephyrproject.org/4.1.0/zephyr.pdf
+
 .. code-block:: console
 
    # MUST: setup zephyr development environment as described above
@@ -149,13 +158,24 @@ And then you can build the hello world sample application for the ``nuclei_fpga_
    # check the current branch and status
    git branch && git status
    # just build in zephyr project root directory
+   # add -v argument after west to see more details
+   # add -p argument after build to clean rebuild
+   # eg. west -v build -p -b nuclei_fpga_eval samples/hello_world
+   # about more west documentation, see https://docs.zephyrproject.org/4.1.0/develop/west/build-flash-debug.html
    west build -b nuclei_fpga_eval samples/hello_world
    # or build in the sample/hello_world directory preferred
    cd samples/hello_world
    west build -b nuclei_fpga_eval
-   # clean build with --pristine
+   # clean rebuild with --pristine
    west build -b nuclei_fpga_eval --pristine
+   # Here are tips about zephyr producied files
    # then you can find the output elf in build/zephyr/zephyr.elf
+   # find the final zephyr config in build/zephyr/.config
+   # find the final map file in build/zephyr/zephyr_final.map
+   # find the final dts file generated in build/zephyr/zephyr.dts
+   # find the final link file generated in build/zephyr/linker.cmd
+   # find the final generated isr table in build/zephyr/isr_tables.c
+   # find the zephyr elf section and entries in build/zephyr/zephyr.stat
    # and you can debug it with riscv64-zephyr-elf-gdb and Nuclei OpenOCD
 
 Flashing
@@ -182,8 +202,14 @@ eg.
    # if a full rebuilt is needed, you can use --pristine option
    west build -b nuclei_fpga_eval
    # flash the hello world sample application to the board
-   # you can see verbose output with -v option
-   # if you want to flash to flash memory, you can change `set(OPENOCD_RAM_LOAD YES)`
+   # you can see verbose output with -v option after west
+   # eg. west -v build -b nuclei_fpga_eval
+   # By default, the program for evalsoc is programmed to sram
+   # If you want to program to flash memory, you need to change ``boards/nuclei/fpga_eval/nuclei_fpga_eval.dts``
+   # eg. ``zephyr,flash = &sram1`` ->``zephyr,flash = &flash0``
+   # and then a full clean and rebuild is needed, like ``west build -p -b nuclei_fpga_eval``
+   # after a full rebuild, you need to check ``.\build\zephyr\zephyr.stat`` to see whether the program sections are expected
+   # And then for openocd, if you want to flash to flash memory, you need to change `set(OPENOCD_RAM_LOAD YES)`
    # to `set(OPENOCD_RAM_LOAD NO)` in `boards/nuclei/fpga_eval/board.cmake`
    # WARN: This command dont support SMP system
    west flash
@@ -235,6 +261,7 @@ eg.
    cd samples/hello_world
    # build the hello world sample application, if you have built it before, you can skip this step
    # if a full rebuilt is needed, you can use --pristine option
+   # eg. west -v build -b nuclei_fpga_eval --pristine
    west build -b nuclei_fpga_eval
    # debug the hello world sample application to the board
    # you can see verbose output with -v option
@@ -375,7 +402,120 @@ See https://github.com/zephyrproject-rtos/zephyr/issues/92505 and https://docs.g
 
 Zephyr **v4.1.0** is compatible with Zephyr SDK **0.17.0**, Partially compatible with later versions, please download Zephyr SDK 0.17.0
 
-2. Show me a sample build command and command log
+2. Why I changed dts or somethings error, the elf file is not updated?
+
+You need to do a full clean build, eg. ``west build -b nuclei_fpga_eval --pristine``, see https://docs.zephyrproject.org/4.1.0/develop/west/build-flash-debug.html#pristine-builds
+
+Or just del the build directory, eg. ``rm -rf build``, you may meet issue like this
+
+``CMake Error: The source "C:/Work/Code/zephyrproject/zephyr/samples/hello_world/CMakeLists.txt" does not match the source "C:/Work/Code/zephyrproject/zephyr/CMakeLists.txt" used to
+generate cache.  Re-run cmake with a different source directory.``
+
+3. A sample west flash command log for programming
+
+If you dont modify where program is located(by default it is located in sram) and not modify ``boards/nuclei/fpga_eval/board.cmake`` to still use ram load via openocd.
+
+RAM is loaded at **0xa0000000**.
+
+Then you can execute ``west flash`` and will see a successful **ram load** log like this:
+
+.. code-block:: console
+
+   (.venv)  C:\Work\Code\zephyrproject\zephyr>west flash
+   -- west flash: rebuilding
+   ninja: no work to do.
+   -- west flash: using runner openocd
+   Open On-Chip Debugger 0.12.0+dev-04185-gebf8c60e3 (2025-02-25-02:17)
+   Licensed under GNU GPL v2
+   For bug reports, read
+         http://openocd.org/doc/doxygen/bugs.html
+   Set boot hart id to default 0
+   Set default SMP CPU count to default 1
+   Info : libusb_open() failed with LIBUSB_ERROR_NOT_FOUND
+   Info : libusb_open() failed with LIBUSB_ERROR_NOT_FOUND
+   Info : no device found, trying D2xx driver
+   Info : D2xx device count: 4
+   Info : Connecting to "(null)" using D2xx mode...
+   Info : clock speed 1000 kHz
+   Info : JTAG tap: riscv.cpu tap/device found: 0x10300a6d (mfg: 0x536 (Nuclei System Technology Co Ltd), part: 0x0300, ver: 0x1)
+   Info : coreid=0, nuclei debug map reg 00: 0x0, 16: 0x0, 32: 0x0
+   Info : [riscv.cpu] datacount=4 progbufsize=2
+   Info : [riscv.cpu] Examined RISC-V core
+   Info : [riscv.cpu]  XLEN=32, misa=0x4094952f
+   [riscv.cpu] Target successfully examined.
+   Info : [riscv.cpu] Examination succeed
+   Info : [riscv.cpu] starting gdb server on 3333
+   Info : Listening on port 3333 for gdb connections
+      TargetName         Type       Endian TapName            State
+   --  ------------------ ---------- ------ ------------------ ------------
+   0* riscv.cpu          riscv      little riscv.cpu          running
+   Info : JTAG tap: riscv.cpu tap/device found: 0x10300a6d (mfg: 0x536 (Nuclei System Technology Co Ltd), part: 0x0300, ver: 0x1)
+   20624 bytes written at address 0xa0000000
+   44 bytes written at address 0xa0005090
+   4 bytes written at address 0xa00050bc
+   downloaded 20672 bytes in 0.340849s (59.227 KiB/s)
+   shutdown command invoked
+
+If you have changed ``boards/nuclei/fpga_eval/nuclei_fpga_eval.dts`` to let flash region point to real flash and changed ``boards/nuclei/fpga_eval/board.cmake``,
+and **rebuild** the sample project, you can execute ``west flash`` and will see a successful **flash programming** log like this
+
+Flash is programmed at **0x20000000**.
+
+The detailed changes needed to be made are described above in the previous section.
+
+.. code-block:: console
+
+   (.venv) C:\Work\Code\zephyrproject\zephyr>west flash
+   -- west flash: rebuilding
+   ninja: no work to do.
+   -- west flash: using runner openocd
+   -- runners.openocd: Flashing file: C:/Work/Code/zephyrproject/zephyr/build/zephyr/zephyr.hex
+   Open On-Chip Debugger 0.12.0+dev-04185-gebf8c60e3 (2025-02-25-02:17)
+   Licensed under GNU GPL v2
+   For bug reports, read
+         http://openocd.org/doc/doxygen/bugs.html
+   Set boot hart id to default 0
+   Set default SMP CPU count to default 1
+   Info : libusb_open() failed with LIBUSB_ERROR_NOT_FOUND
+   Info : libusb_open() failed with LIBUSB_ERROR_NOT_FOUND
+   Info : no device found, trying D2xx driver
+   Info : D2xx device count: 4
+   Info : Connecting to "(null)" using D2xx mode...
+   Info : clock speed 1000 kHz
+   Info : JTAG tap: riscv.cpu tap/device found: 0x10300a6d (mfg: 0x536 (Nuclei System Technology Co Ltd), part: 0x0300, ver: 0x1)
+   Info : coreid=0, nuclei debug map reg 00: 0x0, 16: 0x0, 32: 0x0
+   Info : [riscv.cpu] datacount=4 progbufsize=2
+   Info : [riscv.cpu] Examined RISC-V core
+   Info : [riscv.cpu]  XLEN=32, misa=0x4094952f
+   [riscv.cpu] Target successfully examined.
+   Info : [riscv.cpu] Examination succeed
+   Info : [riscv.cpu] starting gdb server on 3333
+   Info : Listening on port 3333 for gdb connections
+      TargetName         Type       Endian TapName            State
+   --  ------------------ ---------- ------ ------------------ ------------
+   0* riscv.cpu          riscv      little riscv.cpu          running
+   Info : JTAG tap: riscv.cpu tap/device found: 0x10300a6d (mfg: 0x536 (Nuclei System Technology Co Ltd), part: 0x0300, ver: 0x1)
+   Info : Valid NUSPI on device Nuclei SoC SPI Flash at address 0x20000000 with spictrl regbase at 0x10014000
+   Info : Nuclei SPI controller version 0xee010102
+   Info : Found flash device 'gd gd25q32c' (ID 0x001640c8)
+   Info : Padding image section 0 at 0x20000306 with 58 bytes
+   Info : Padding image section 1 at 0x200004e2 with 2 bytes
+   Info : Padding image section 2 at 0x200047fe with 2 bytes
+   Info : Padding image section 3 at 0x20004acc with 4 bytes
+   auto erase enabled
+   wrote 65536 bytes from file C:/Work/Code/zephyrproject/zephyr/build/zephyr/zephyr.hex in 3.607078s (17.743 KiB/s)
+   Info : JTAG tap: riscv.cpu tap/device found: 0x10300a6d (mfg: 0x536 (Nuclei System Technology Co Ltd), part: 0x0300, ver: 0x1)
+   Info : [riscv.cpu] Register fp is dirty!
+   Info : [riscv.cpu] Register s1 is dirty!
+   Info : [riscv.cpu] Register a1 is dirty!
+   Info : [riscv.cpu] Register a2 is dirty!
+   Info : [riscv.cpu] Register a3 is dirty!
+   Info : [riscv.cpu] Register a4 is dirty!
+   Info : [riscv.cpu] Register a5 is dirty!
+   Info : [riscv.cpu] Discarding values of dirty registers.
+   shutdown command invoked
+
+4. Show me a sample build command and command log
 
 .. code-block:: console
 
@@ -508,6 +648,10 @@ Zephyr **v4.1.0** is compatible with Zephyr SDK **0.17.0**, Partially compatible
    yamllint            1.35.1
    zcbor               0.9.1
    zipp                3.21.0
+   (.venv) PS C:\Work\Code\zephyrproject\zephyr> cmake --version
+   cmake version 3.31.6
+
+   CMake suite maintained and supported by Kitware (kitware.com/cmake).
    (.venv) PS C:\Work\Code\zephyrproject> west --version
    West version: v1.3.0
    (.venv) PS C:\Work\Code\zephyrproject\zephyr> west sdk list
