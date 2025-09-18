@@ -115,19 +115,37 @@ usual (see :ref:`build_an_application`) using the corresponding board name:
 
 Make sure you have followed the get started guide of Zephyr to setup development environment:
 
-- Get started guide(please use zephyr sdk 0.17.0): https://docs.zephyrproject.org/4.1.0/develop/getting_started/index.html
-- Download Nuclei OpenOCD: https://nucleisys.com/download.php
-- Checkout Nuclei Maintained Zephyr Repository with branch ``nuclei/4.1-branch``: https://github.com/riscv-mcu/zephyr
+Here we are just using Zephyr official development environment, so you must follow the official steps
+to setup your development environment, and we only provide a zephyr repo contains our porting code,
+so you need to switch to our maintained zephyr repo and branch after environment setup.
+
+- **MUST** Following get started guide here to setup Zephyr development environment: https://docs.zephyrproject.org/4.1.0/develop/getting_started/index.html
+- **MUST** Make sure you are using Zephyr SDK == 0.17.0, upper than 0.17.0 is not compatible with Zephyr 4.1
+- **MUST** Download Nuclei OpenOCD: https://nucleisys.com/download.php
+- **MUST** Checkout Nuclei Maintained Zephyr Repository with branch ``nuclei/4.1-branch`` and do ``west update``: https://github.com/riscv-mcu/zephyr
 
 And then you can build the hello world sample application for the ``nuclei_fpga_eval`` board:
 
 .. code-block:: console
 
-   # setup zephyr development environment as described above
+   # MUST: setup zephyr development environment as described above
    # zephyr sdk == 0.17.0 is required
    # assume you have set it up correctly
    # cd to the zephyr project root directory
    cd /path/to/zephyr
+   # make sure you are using the branch nuclei/4.1-branch from https://github.com/riscv-mcu/zephyr
+   # you can add a new remote such as below
+   # if you have already switched to nuclei/4.1-branch, ignore this step
+   git remote add nuclei https://github.com/riscv-mcu/zephyr.git
+   git fetch nuclei
+   git checkout nuclei/4.1-branch
+   # execute west update to sync repos to match the branch required
+   # see https://docs.zephyrproject.org/4.1.0/develop/west/basics.html#west-update-basics
+   # Whenever you check out a different revision in your manifest repository,
+   # you should run west update to make sure your workspace contains the project repositories
+   # the new revision expects.
+   # MUST: execute west update
+   west update
    # check the current branch and status
    git branch && git status
    # just build in zephyr project root directory
