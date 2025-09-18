@@ -39,6 +39,7 @@
 			reg = <0>;
 			cpu0_intc: interrupt-controller {
 				compatible = "riscv,cpu-intc";
+				#address-cells = <0>;
 				#interrupt-cells = <1>;
 				interrupt-controller;
 			};
@@ -52,6 +53,7 @@
 			reg = <1>;
 			cpu1_intc: interrupt-controller {
 				compatible = "riscv,cpu-intc";
+				#address-cells = <0>;
 				#interrupt-cells = <1>;
 				interrupt-controller;
 			};
@@ -64,6 +66,7 @@
 			reg = <2>;
 			cpu2_intc: interrupt-controller {
 				compatible = "riscv,cpu-intc";
+				#address-cells = <0>;
 				#interrupt-cells = <1>;
 				interrupt-controller;
 			};
@@ -76,6 +79,7 @@
 			reg = <3>;
 			cpu3_intc: interrupt-controller {
 				compatible = "riscv,cpu-intc";
+				#address-cells = <0>;
 				#interrupt-cells = <1>;
 				interrupt-controller;
 			};
@@ -88,6 +92,7 @@
 			reg = <4>;
 			cpu4_intc: interrupt-controller {
 				compatible = "riscv,cpu-intc";
+				#address-cells = <0>;
 				#interrupt-cells = <1>;
 				interrupt-controller;
 			};
@@ -100,6 +105,7 @@
 			reg = <5>;
 			cpu5_intc: interrupt-controller {
 				compatible = "riscv,cpu-intc";
+				#address-cells = <0>;
 				#interrupt-cells = <1>;
 				interrupt-controller;
 			};
@@ -112,6 +118,7 @@
 			reg = <6>;
 			cpu6_intc: interrupt-controller {
 				compatible = "riscv,cpu-intc";
+				#address-cells = <0>;
 				#interrupt-cells = <1>;
 				interrupt-controller;
 			};
@@ -124,6 +131,7 @@
 			reg = <7>;
 			cpu7_intc: interrupt-controller {
 				compatible = "riscv,cpu-intc";
+				#address-cells = <0>;
 				#interrupt-cells = <1>;
 				interrupt-controller;
 			};
