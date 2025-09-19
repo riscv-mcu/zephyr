@@ -131,6 +131,52 @@ so you need to switch to our maintained zephyr repo and branch after environment
 - **MUST** Download Nuclei OpenOCD: https://nucleisys.com/download.php
 - **MUST** Checkout Nuclei Maintained Zephyr Repository with branch ``nuclei/4.1-branch`` and do ``west update``: https://github.com/riscv-mcu/zephyr
 
+Here below are simple commands to setup development environment for **Windows 10/11**
+
+.. code-block:: console
+
+   # Install winget first if not installed, see https://learn.microsoft.com/en-us/windows/package-manager/
+   # Open a windows teriminal cmd.exe not PowerShell, and cd to directory where you want to install zephyr
+   # eg. cd windows user home directory
+   cd %HOMEPATH%
+   # Check whether winget is installed via version check
+   winget --version
+   # CMake 3.20.5 Python 3.10 Devicetree compiler 1.4.6 are offical recommended versions
+   # As of November 2024, Python 3.13 is not recommended for Zephyr development on Windows, as some required Python dependencies may be difficult to install.
+   winget install Kitware.CMake Ninja-build.Ninja oss-winget.gperf python Git.Git oss-winget.dtc wget 7zip.7zip
+   # check python version
+   python --version
+   # Create a new virtual environment
+   python -m venv zephyrproject\.venv
+   # Activate the virtual environment
+   # This activation command is required for next time develop zephyr
+   .\zephyrproject\.venv\Scripts\activate.bat
+   # Just install west
+   pip install west
+   # Setup zephyr workspace using nuclei maintained fork and branch
+   # see https://docs.zephyrproject.org/4.1.0/develop/west/built-in.html
+   # Make sure you have good network connection to github, this is a MUST
+   # since all the dependencies are downloaded from github which is not controlled by us
+   west init -m https://github.com/riscv-mcu/zephyr --mr nuclei/4.1-branch zephyrproject
+   # sync zephyr required modules
+   cd zephyrproject
+   west update
+   # Export a Zephyr CMake package. This allows CMake to automatically load boilerplate code required for building Zephyr applications.
+   west zephyr-export
+   # Install python dependencies
+   west packages pip --install
+   # Install zephyr sdk 0.17.0, see https://docs.zephyrproject.org/4.1.0/develop/toolchains/zephyr_sdk.html#toolchain-zephyr-sdk
+   # here is pre-downloaded url https://drive.weixin.qq.com/s?k=ABcAKgdSAFcvadkJ0u
+   wget https://github.com/zephyrproject-rtos/sdk-ng/releases/download/v0.17.0/zephyr-sdk-0.17.0_windows-x86_64.7z
+   # Run the Zephyr SDK bundle setup script
+   7z x zephyr-sdk-0.17.0_windows-x86_64.7z
+   cd zephyr-sdk-0.17.0
+   setup.cmd
+   cd ..
+   # Check whether environment are all setup correctly via compiling amples/hello_world app
+   cd zephyr
+   west build -b nuclei_fpga_eval samples/hello_world
+
 And then you can build the hello world sample application for the ``nuclei_fpga_eval`` board:
 
 You can find a pdf version of Zephyr 4.1 documentation here: https://docs.zephyrproject.org/4.1.0/zephyr.pdf
@@ -140,6 +186,8 @@ You can find a pdf version of Zephyr 4.1 documentation here: https://docs.zephyr
    # MUST: setup zephyr development environment as described above
    # zephyr sdk == 0.17.0 is required
    # assume you have set it up correctly
+   # Activate the zephyr venv, change below to your zephyrproject path
+   %HOMEPATH%\zephyrproject\.venv\Scripts\activate.bat
    # cd to the zephyr project root directory
    cd /path/to/zephyr
    # make sure you are using the branch nuclei/4.1-branch from https://github.com/riscv-mcu/zephyr
