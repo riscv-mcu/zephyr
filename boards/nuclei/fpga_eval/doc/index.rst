@@ -66,7 +66,7 @@ to enable SMP support.
 
 You can try SMP support using ``samples/arch/smp/pi`` sample application.
 
-.. note::
+.. code-block:: console
 
    # Sample output for SMP 2 Cores
    *** Booting Zephyr OS build v4.1.0-35-g271814f03046 ***
